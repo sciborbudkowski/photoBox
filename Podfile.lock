@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (5.4.1)
+  - Jelly (2.2.2)
+  - Kingfisher (6.2.1)
+
+DEPENDENCIES:
+  - Alamofire
+  - Jelly (~> 2.2.2)
+  - Kingfisher
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Jelly
+    - Kingfisher
+
+SPEC CHECKSUMS:
+  Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Jelly: 0576a8fd3b3bea78f6c2d952acdc30b0835dda71
+  Kingfisher: e71c6fac2aebb1262888cabc2cb13d313362a48f
+
+PODFILE CHECKSUM: f9906f18edf51c852623173aba47b18efc8fcd5a
+
+COCOAPODS: 1.10.1

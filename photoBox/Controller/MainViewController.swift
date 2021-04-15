@@ -12,8 +12,8 @@ import Jelly
 
 class MainViewController: UIViewController {
     
-    var physicalLocation: CLLocation?
-    var currentLocation: CLLocation?
+    var physicalLocation: CLLocationCoordinate2D?
+    var currentLocation: CLLocationCoordinate2D?
     var annotation: MKPointAnnotation?
     var photoList: PhotoList?
     var didHitApi = false
@@ -108,13 +108,13 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func requestLocation(completion: @escaping(CLLocation?) -> ()) {
+    private func requestLocation(completion: @escaping(CLLocationCoordinate2D?) -> ()) {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         locationManager.requestWhenInUseAuthorization()
         if let location = locationManager.location {
-            completion(location)
+            completion(location.coordinate)
         }
     }
     
@@ -199,11 +199,11 @@ class MainViewController: UIViewController {
             mapView.centerToLocation(location)
             
             self.annotation = MKPointAnnotation()
-            self.annotation?.coordinate = location.coordinate
+            self.annotation?.coordinate = location
             self.annotation?.title = "You are here"
             mapView.addAnnotation(self.annotation!)
             
-            GetPhotoList(coordinate: location.coordinate)
+            GetPhotoList(coordinate: location)
         }
     }
     
@@ -227,7 +227,7 @@ class MainViewController: UIViewController {
     @objc private func showPhotographiesButtonTapped() {
         let vc = PhotoViewController()
         guard let photoList = self.photoList else { return }
-        vc.configure(photoList)
+        vc.configure(photoList, currentLocation!)
         ModalViewController.show(self, modal: vc, size: 310)
     }
     
@@ -238,7 +238,7 @@ class MainViewController: UIViewController {
     
     private func GetPhotoList(coordinate: CLLocationCoordinate2D) {
         let f = FlickrService()
-        f.fetchPhotoList(for: coordinate) { [weak self] (list, error) in
+        f.fetchPhotoList(coordinates: coordinate) { [weak self] (list, error) in
             self?.didHitApi = true
             
             if let error = error {

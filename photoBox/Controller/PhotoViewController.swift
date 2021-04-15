@@ -7,10 +7,13 @@
 
 import UIKit
 import Kingfisher
+import MapKit
 
 class PhotoViewController: UIViewController {
     
     private var photos: PhotoList!
+    private var currentPage: Int!
+    private var currentPosition: CLLocationCoordinate2D!
     
     private let photoView: UICollectionView = {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -34,6 +37,7 @@ class PhotoViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.left.circle.fill"), for: .normal)
         button.tintColor = UIColor(named: "background")
+        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -42,6 +46,7 @@ class PhotoViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.right.circle.fill"), for: .normal)
         button.tintColor = UIColor(named: "background")
+        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -57,8 +62,10 @@ class PhotoViewController: UIViewController {
         setupView()
     }
     
-    public func configure(_ photos: PhotoList) {
+    public func configure(_ photos: PhotoList, _ coordinates: CLLocationCoordinate2D) {
         self.photos = photos
+        self.currentPage = photos.photos.page
+        self.currentPosition = coordinates
     }
     
     private func setupView() {
@@ -71,7 +78,6 @@ class PhotoViewController: UIViewController {
         pageLabel.sizeToFit()
         pageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         pageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        pageLabel.text = String(format: "Page %d of %d", photos.photos.page, photos.photos.pages)
         
         leftButton.translatesAutoresizingMaskIntoConstraints = false
         leftButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
@@ -90,6 +96,56 @@ class PhotoViewController: UIViewController {
         photoView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         photoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         photoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        
+        updateControls()
+    }
+    
+    private func updateControls() {
+        if photos.photos.page == 1 {
+            leftButton.tintColor = .lightGray
+            leftButton.isEnabled = false
+        }
+        else {
+            leftButton.tintColor = UIColor(named: "background")
+            leftButton.isEnabled = true
+        }
+        
+        if photos.photos.page == photos.photos.pages {
+            rightButton.tintColor = .lightGray
+            rightButton.isEnabled = false
+        }
+        else {
+            rightButton.tintColor = UIColor(named: "background")
+            rightButton.isEnabled = true
+        }
+        
+        pageLabel.text = String(format: "Page %d of %d", photos.photos.page, photos.photos.pages)
+    }
+    
+    @objc private func leftButtonTapped() {
+        currentPage -= 1
+        GetPhotoList()
+    }
+    
+    @objc private func rightButtonTapped() {
+        currentPage += 1
+        GetPhotoList()
+    }
+    
+    private func GetPhotoList() {
+        let f = FlickrService()
+        f.fetchPhotoList(coordinates: self.currentPosition, page: self.currentPage, completion: { [weak self] (list, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            if let list = list {
+                self?.photos = list
+                self?.photoView.reloadData()
+                self?.updateControls()
+            }
+        })
     }
 }
 
@@ -120,7 +176,8 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PhotoDetailViewController()
-        vc.configure(photos.photos.photo[indexPath.row].id)
-        ModalViewController.show(self, modal: vc, size: view.bounds.height)
+        vc.configure(photos.photos.photo[indexPath.row])
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true)
     }
 }

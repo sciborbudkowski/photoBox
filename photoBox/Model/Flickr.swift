@@ -57,6 +57,15 @@ struct PhotoList: Decodable {
     }
 }
 
+struct PhotoDetail: Decodable {
+    
+    let photo: PhotoInfo
+    
+    enum CodingKeys: String, CodingKey {
+        case photo
+    }
+}
+
 struct PhotoInfo: Decodable {
     
     let id: String

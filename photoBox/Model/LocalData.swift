@@ -10,6 +10,8 @@ import Foundation
 struct LocalDataKeys {
     
     static let numberOfPicsToDownload = "numberOfPicsToDownload"
+    static let photoViewMode = "photoViewMode"
+    static let photoShowInfo = "photoShowInfo"
 }
 
 class LocalData {
@@ -31,6 +33,34 @@ class LocalData {
         
         set {
             defaults.setValue(newValue, forKey: LocalDataKeys.numberOfPicsToDownload)
+        }
+    }
+    
+    public var photoViewMode: String {
+        get {
+            let mode = defaults.string(forKey: LocalDataKeys.photoViewMode)
+            if let mode = mode {
+                return mode
+            }
+            else {
+                defaults.setValue("scaleAspectFill", forKey: LocalDataKeys.photoViewMode)
+                return "scaleAspectFill"
+            }
+        }
+        
+        set {
+            defaults.setValue(newValue, forKey: LocalDataKeys.photoViewMode)
+        }
+    }
+    
+    public var photoShowInfo: Bool {
+        get {
+            let showInfo = defaults.bool(forKey: LocalDataKeys.photoShowInfo)
+            return showInfo
+        }
+        
+        set {
+            defaults.setValue(newValue, forKey: LocalDataKeys.photoShowInfo)
         }
     }
 }

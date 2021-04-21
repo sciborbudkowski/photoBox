@@ -11,8 +11,6 @@ extension UIView.AnimationCurve {
                 UIView.AnimationOptions.curveEaseOut
             case .linear:
                 return UIView.AnimationOptions.curveLinear
-        @unknown default:
-            fatalError()
         }
     }
 }

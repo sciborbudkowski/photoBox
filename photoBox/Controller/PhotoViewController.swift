@@ -14,6 +14,7 @@ class PhotoViewController: UIViewController {
     private var photos: PhotoList!
     private var currentPage: Int!
     private var currentPosition: CLLocationCoordinate2D!
+    private var photoItems: [Photo]!
     
     private let photoView: UICollectionView = {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -37,7 +38,6 @@ class PhotoViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.left.circle.fill"), for: .normal)
         button.tintColor = UIColor(named: "background")
-        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -46,7 +46,6 @@ class PhotoViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.right.circle.fill"), for: .normal)
         button.tintColor = UIColor(named: "background")
-        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -56,6 +55,9 @@ class PhotoViewController: UIViewController {
         
         view.backgroundColor = .secondarySystemBackground
         
+        leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
+        
         photoView.delegate = self
         photoView.dataSource = self
         
@@ -64,6 +66,7 @@ class PhotoViewController: UIViewController {
     
     public func configure(_ photos: PhotoList, _ coordinates: CLLocationCoordinate2D) {
         self.photos = photos
+        self.photoItems = photos.photos.photo
         self.currentPage = photos.photos.page
         self.currentPosition = coordinates
     }
@@ -123,11 +126,13 @@ class PhotoViewController: UIViewController {
     }
     
     @objc private func leftButtonTapped() {
+        print("LEFT")
         currentPage -= 1
         GetPhotoList()
     }
     
     @objc private func rightButtonTapped() {
+        print("RIGHT")
         currentPage += 1
         GetPhotoList()
     }
@@ -142,6 +147,7 @@ class PhotoViewController: UIViewController {
             
             if let list = list {
                 self?.photos = list
+                self?.photoItems = list.photos.photo
                 self?.photoView.reloadData()
                 self?.updateControls()
             }
@@ -156,17 +162,17 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.photos.photo.count
+        return photoItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoViewCell.identifier, for: indexPath) as? PhotoViewCell else { return UICollectionViewCell() }
-        let image = photos.photos.photo[indexPath.row]
+        let image = photoItems[indexPath.row]
         let imageUrl = "https://farm\(image.farm).staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
         if let url = URL(string: imageUrl) {
             let imageView = UIImageView()
             imageView.kf.setImage(with: url)
-            imageView.frame.size = CGSize(width: 65, height: 65)
+            imageView.frame.size = CGSize(width: 55, height: 55)
             imageView.contentMode = .scaleToFill
             cell.addSubview(imageView)
         }
@@ -176,7 +182,7 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = PhotoDetailViewController()
-        vc.configure(photos.photos.photo[indexPath.row])
+        vc.configure(photoItems[indexPath.row])
         vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true)
     }

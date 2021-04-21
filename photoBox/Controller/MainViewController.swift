@@ -18,6 +18,9 @@ class MainViewController: UIViewController {
     var photoList: PhotoList?
     var didHitApi = false
     
+    var searchCompleter = MKLocalSearchCompleter()
+    var searchResults = [MKLocalSearchCompletion]()
+    
     let locationManager = CLLocationManager()
     
     private let mapView: MKMapView = {
@@ -60,6 +63,34 @@ class MainViewController: UIViewController {
         return button
     }()
     
+    private let searchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.tintColor = UIColor.white
+        button.contentMode = .scaleToFill
+        button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private let searchBar: UISearchBar = {
+        let field = UISearchBar()
+        field.tintColor = UIColor(named: "background")
+        field.barTintColor = UIColor(named: "background")
+        field.backgroundImage = UIImage()
+        field.searchTextField.backgroundColor = .white
+        field.searchTextField.textColor = UIColor(named: "background")
+        field.isHidden = true
+        
+        return field
+    }()
+    
+    private let searchResultsTable: UITableView = {
+        let view = UITableView()
+        
+        return view
+    }()
+    
     private let backToUserLocationButton: UIButton = {
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setImage(UIImage(systemName: "mappin.and.ellipse"), for: .normal)
@@ -99,6 +130,11 @@ class MainViewController: UIViewController {
         
         setupView()
         setupGestures()
+        
+        searchResultsTable.delegate = self
+        searchResultsTable.dataSource = self
+        searchBar.delegate = self
+        searchCompleter.delegate = self
     }
     
     private func GetCurrentLocation() {
@@ -123,6 +159,7 @@ class MainViewController: UIViewController {
         view.addSubview(topView)
         view.addSubview(backToUserLocationButton)
         view.addSubview(showPhotographiesButton)
+        view.addSubview(searchResultsTable)
         
         topView.translatesAutoresizingMaskIntoConstraints = false
         if DeviceOrientation.isPortrait() {
@@ -168,6 +205,8 @@ class MainViewController: UIViewController {
         topView.addSubview(titleLabel)
         topView.addSubview(menuButton)
         topView.addSubview(settingsButton)
+        topView.addSubview(searchButton)
+        topView.addSubview(searchBar)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.sizeToFit()
@@ -185,6 +224,25 @@ class MainViewController: UIViewController {
         settingsButton.rightAnchor.constraint(equalTo: topView.rightAnchor, constant: -10).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         settingsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        searchButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        searchButton.rightAnchor.constraint(equalTo: settingsButton.leftAnchor, constant: 10).isActive = true
+        searchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        searchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+        searchBar.leftAnchor.constraint(equalTo: menuButton.rightAnchor).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: searchButton.leftAnchor).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        searchResultsTable.translatesAutoresizingMaskIntoConstraints = false
+        searchResultsTable.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        searchResultsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        searchResultsTable.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        searchResultsTable.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        searchResultsTable.isHidden = true
     }
     
     private func setupGestures() {
@@ -218,22 +276,31 @@ class MainViewController: UIViewController {
             let annotation = DropablePinout(coordinate: touchCoordinate, identifier: "")
             mapView.addAnnotation(annotation)
             
+            self.currentLocation = touchCoordinate
             mapView.centerToCoordinates(touchCoordinate)
-            
             GetPhotoList(coordinate: touchCoordinate)
         }
     }
     
     @objc private func showPhotographiesButtonTapped() {
-        let vc = PhotoViewController()
+        let photoViewController = PhotoViewController()
         guard let photoList = self.photoList else { return }
-        vc.configure(photoList, currentLocation!)
-        ModalViewController.show(self, modal: vc, size: 310)
+        photoViewController.configure(photoList, currentLocation!)
+        ModalViewController.show(self, modal: photoViewController, size: 310)
     }
     
     @objc private func backToUserLocationButtonTapped() {
         GetCurrentLocation()
         CenterMapWithAnnotation()
+    }
+    
+    @objc private func searchButtonTapped() {
+        UIView.transition(with: searchBar,
+                          duration: 1,
+                          options: .curveLinear) {
+            self.searchBar.isHidden = !self.searchBar.isHidden
+            self.searchBar.becomeFirstResponder()
+        }
     }
     
     private func GetPhotoList(coordinate: CLLocationCoordinate2D) {
@@ -287,4 +354,62 @@ extension MainViewController: CLLocationManagerDelegate {
 
 extension MainViewController: UIGestureRecognizerDelegate {
     
+}
+
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        searchResults.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        cell.textLabel?.text = searchResults[indexPath.row].title
+        cell.detailTextLabel?.text = searchResults[indexPath.row].subtitle
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        searchResultsTable.deselectRow(at: indexPath, animated: true)
+        
+        let result = searchResults[indexPath.row]
+        let searchRequest = MKLocalSearch.Request(completion: result)
+        let search = MKLocalSearch(request: searchRequest)
+        
+        search.start { [weak self] (response, error) in
+            guard let coordinate = response?.mapItems[0].placemark.coordinate else { return }
+            self?.currentLocation = coordinate
+            self?.CenterMapWithAnnotation()
+            self?.GetPhotoList(coordinate: coordinate)
+            self?.searchBar.text = nil
+            self?.searchResultsTable.isHidden = true
+            self?.searchBar.isHidden = true
+        }
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText != "" {
+            searchResultsTable.isHidden = false
+        }
+        else {
+            searchResultsTable.isHidden = true
+        }
+        searchCompleter.queryFragment = searchText
+    }
+}
+
+
+extension MainViewController: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResults = completer.results
+        searchResultsTable.reloadData()
+    }
 }

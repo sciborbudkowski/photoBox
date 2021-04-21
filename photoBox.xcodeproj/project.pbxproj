@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		301B7B3726302CAE00BFDB42 /* UITextField.Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301B7B3626302CAE00BFDB42 /* UITextField.Extension.swift */; };
 		3041D3202625AFA2005EBC0B /* LocalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3041D31F2625AFA2005EBC0B /* LocalData.swift */; };
 		306088522625B1EA00DDC009 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306088512625B1EA00DDC009 /* Secrets.swift */; };
 		306088582625D63D00DDC009 /* FlickrService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306088572625D63D00DDC009 /* FlickrService.swift */; };
@@ -24,10 +25,12 @@
 		309B90DB26257D7D006561EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309B90D926257D7D006561EC /* Main.storyboard */; };
 		309B90DD26257D7E006561EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 309B90DC26257D7E006561EC /* Assets.xcassets */; };
 		309B90E026257D7E006561EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 309B90DE26257D7E006561EC /* LaunchScreen.storyboard */; };
-		E9F0F7E33F74B014DC20E1EB /* Pods_photoBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C897BB0EF21E23B45EE4D7E /* Pods_photoBox.framework */; };
+		8B575EC1267C945E4C4F5583 /* Pods_photoBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188AE265301D9783F61BB603 /* Pods_photoBox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		188AE265301D9783F61BB603 /* Pods_photoBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_photoBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		301B7B3626302CAE00BFDB42 /* UITextField.Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.Extension.swift; sourceTree = "<group>"; };
 		3041D31F2625AFA2005EBC0B /* LocalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalData.swift; sourceTree = "<group>"; };
 		306088512625B1EA00DDC009 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		306088572625D63D00DDC009 /* FlickrService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrService.swift; sourceTree = "<group>"; };
@@ -47,9 +50,8 @@
 		309B90DC26257D7E006561EC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		309B90DF26257D7E006561EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		309B90E126257D7E006561EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		35A4FBBCB379AE42B0A45D78 /* Pods-photoBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoBox.release.xcconfig"; path = "Target Support Files/Pods-photoBox/Pods-photoBox.release.xcconfig"; sourceTree = "<group>"; };
-		3C897BB0EF21E23B45EE4D7E /* Pods_photoBox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_photoBox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2D265856C575F66B9F31DE9 /* Pods-photoBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoBox.debug.xcconfig"; path = "Target Support Files/Pods-photoBox/Pods-photoBox.debug.xcconfig"; sourceTree = "<group>"; };
+		3BB370F8D066EA8BA4783040 /* Pods-photoBox.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoBox.release.xcconfig"; path = "Target Support Files/Pods-photoBox/Pods-photoBox.release.xcconfig"; sourceTree = "<group>"; };
+		EB1D3DDC1114FFFE2233598C /* Pods-photoBox.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoBox.debug.xcconfig"; path = "Target Support Files/Pods-photoBox/Pods-photoBox.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9F0F7E33F74B014DC20E1EB /* Pods_photoBox.framework in Frameworks */,
+				8B575EC1267C945E4C4F5583 /* Pods_photoBox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +81,7 @@
 				307E6D9A2625972500B7FD97 /* DropablePinout.swift */,
 				30608887262712E500DDC009 /* ModalViewController.swift */,
 				3060888D26271CF000DDC009 /* DeviceOrientation.swift */,
+				301B7B3626302CAE00BFDB42 /* UITextField.Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -89,7 +92,7 @@
 				309B90D226257D7D006561EC /* photoBox */,
 				309B90D126257D7D006561EC /* Products */,
 				62A8635CF16701A264072CBD /* Pods */,
-				51C7E1DA15B1E4D729898463 /* Frameworks */,
+				92321B176B374A2C5E76B1F4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,21 +166,21 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		51C7E1DA15B1E4D729898463 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3C897BB0EF21E23B45EE4D7E /* Pods_photoBox.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		62A8635CF16701A264072CBD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F2D265856C575F66B9F31DE9 /* Pods-photoBox.debug.xcconfig */,
-				35A4FBBCB379AE42B0A45D78 /* Pods-photoBox.release.xcconfig */,
+				EB1D3DDC1114FFFE2233598C /* Pods-photoBox.debug.xcconfig */,
+				3BB370F8D066EA8BA4783040 /* Pods-photoBox.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		92321B176B374A2C5E76B1F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				188AE265301D9783F61BB603 /* Pods_photoBox.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,11 +190,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 309B90E426257D7E006561EC /* Build configuration list for PBXNativeTarget "photoBox" */;
 			buildPhases = (
-				2C092B4E6000BB4D9AC4A4D5 /* [CP] Check Pods Manifest.lock */,
+				2B9343F2A2B02976D58B6C1D /* [CP] Check Pods Manifest.lock */,
 				309B90CC26257D7D006561EC /* Sources */,
 				309B90CD26257D7D006561EC /* Frameworks */,
 				309B90CE26257D7D006561EC /* Resources */,
-				52C91E587CD472984BD4EA4C /* [CP] Embed Pods Frameworks */,
+				FEB32C110A7F6A6B56A7ABB6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,7 +251,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C092B4E6000BB4D9AC4A4D5 /* [CP] Check Pods Manifest.lock */ = {
+		2B9343F2A2B02976D58B6C1D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -270,7 +273,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		52C91E587CD472984BD4EA4C /* [CP] Embed Pods Frameworks */ = {
+		FEB32C110A7F6A6B56A7ABB6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -297,6 +300,7 @@
 				307E6D9726258D5100B7FD97 /* MKMapView.Extension.swift in Sources */,
 				3060885B2625D6E200DDC009 /* Flickr.swift in Sources */,
 				306088522625B1EA00DDC009 /* Secrets.swift in Sources */,
+				301B7B3726302CAE00BFDB42 /* UITextField.Extension.swift in Sources */,
 				3060888B26271BFB00DDC009 /* PhotoDetailViewController.swift in Sources */,
 				309B90D826257D7D006561EC /* MainViewController.swift in Sources */,
 				3060886C2626EFFE00DDC009 /* PhotoViewCell.swift in Sources */,
@@ -451,7 +455,7 @@
 		};
 		309B90E526257D7E006561EC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2D265856C575F66B9F31DE9 /* Pods-photoBox.debug.xcconfig */;
+			baseConfigurationReference = EB1D3DDC1114FFFE2233598C /* Pods-photoBox.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -471,7 +475,7 @@
 		};
 		309B90E626257D7E006561EC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35A4FBBCB379AE42B0A45D78 /* Pods-photoBox.release.xcconfig */;
+			baseConfigurationReference = 3BB370F8D066EA8BA4783040 /* Pods-photoBox.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

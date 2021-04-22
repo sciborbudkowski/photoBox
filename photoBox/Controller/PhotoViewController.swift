@@ -113,7 +113,7 @@ class PhotoViewController: UIViewController {
             leftButton.isEnabled = true
         }
         
-        if photos.photos.page == photos.photos.pages {
+        if photos.photos.page == photos.photos.pages || photos.photos.pages == 0 {
             rightButton.tintColor = .lightGray
             rightButton.isEnabled = false
         }
@@ -123,6 +123,11 @@ class PhotoViewController: UIViewController {
         }
         
         pageLabel.text = String(format: "Page %d of %d", photos.photos.page, photos.photos.pages)
+        if photos.photos.pages == 0 {
+            pageLabel.text = "No photographies for this location."
+            leftButton.isHidden = true
+            rightButton.isHidden = true
+        }
     }
     
     @objc private func leftButtonTapped() {

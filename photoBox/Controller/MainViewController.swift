@@ -39,7 +39,8 @@ class MainViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Avenir Next", size: 20.0)
+        label.font = UIFont(name: "AvenirNext-Bold", size: 20.0)
+        
         label.textColor = .white
         label.text = "photoBox"
         
@@ -213,27 +214,30 @@ class MainViewController: UIViewController {
         titleLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
         
-        menuButton.translatesAutoresizingMaskIntoConstraints = false
-        menuButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
-        menuButton.leftAnchor.constraint(equalTo: topView.leftAnchor, constant: 10).isActive = true
-        menuButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        menuButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        menuButton.translatesAutoresizingMaskIntoConstraints = false
+//        menuButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+//        menuButton.leftAnchor.constraint(equalTo: topView.leftAnchor, constant: 10).isActive = true
+//        menuButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+//        menuButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        settingsButton.translatesAutoresizingMaskIntoConstraints = false
-        settingsButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
-        settingsButton.rightAnchor.constraint(equalTo: topView.rightAnchor, constant: -10).isActive = true
-        settingsButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        settingsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        settingsButton.translatesAutoresizingMaskIntoConstraints = false
+//        settingsButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+//        settingsButton.rightAnchor.constraint(equalTo: topView.rightAnchor, constant: -10).isActive = true
+//        settingsButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+//        settingsButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         searchButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
-        searchButton.rightAnchor.constraint(equalTo: settingsButton.leftAnchor, constant: 10).isActive = true
+//        searchButton.rightAnchor.constraint(equalTo: settingsButton.leftAnchor, constant: 10).isActive = true
+        searchButton.rightAnchor.constraint(equalTo: topView.rightAnchor, constant: -10).isActive = true
         searchButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         searchButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: menuButton.rightAnchor).isActive = true
+//        searchBar.leftAnchor.constraint(equalTo: menuButton.rightAnchor).isActive = true
+//        searchBar.rightAnchor.constraint(equalTo: searchButton.leftAnchor).isActive = true
+        searchBar.leftAnchor.constraint(equalTo: topView.leftAnchor).isActive = true
         searchBar.rightAnchor.constraint(equalTo: searchButton.leftAnchor).isActive = true
         searchBar.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
@@ -258,7 +262,6 @@ class MainViewController: UIViewController {
             
             self.annotation = MKPointAnnotation()
             self.annotation?.coordinate = location
-            self.annotation?.title = "You are here"
             mapView.addAnnotation(self.annotation!)
             
             GetPhotoList(coordinate: location)
